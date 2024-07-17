@@ -8,7 +8,7 @@ dj-database-url==2.2.0
 Django==3.2.9
 django-heroku==0.3.1
 django-widget-tweaks==1.5.0
-dlib @ file:///C:/django/deploy/dlib-19.22.1-cp39-cp39-win_amd64.whl#sha256=0980480b21b47e0450752736a4f353915dd3fd565670978822d6b3d78c69de88
+dlib
 gunicorn==22.0.0
 idna==3.7
 jmespath==0.10.0
