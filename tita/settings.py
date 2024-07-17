@@ -30,7 +30,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://proyecto-db01c98a6cad.herokuapp.com/','*']
 
@@ -111,21 +111,12 @@ AUTH_USER_MODEL = 'login.Account'
 import os
 import dj_database_url
 
-# Configuración de la base de datos usando dj-database-url
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME', 'p3'),
-        'USER': os.getenv('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', '12345'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
+    )
 }
 
-# Actualiza la configuración de la base de datos desde la variable de entorno DATABASE_URL
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
 
 
 
