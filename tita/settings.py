@@ -30,7 +30,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://proyecto-db01c98a6cad.herokuapp.com/','*']
 
@@ -113,10 +113,9 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
+        default=os.getenv('DATABASE_URL', f'postgres://postgres:12345@localhost:5432/p3')
     )
 }
-
 
 
 
