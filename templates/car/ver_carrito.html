@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <h4 class="card-title">Mi Carrito</h4>
+        {% if cart_items %}
+            <ul class="list-group">
+                {% for item in cart_items %}
+                    <li class="list-group-item">
+                        <h5>{{ item.servicio.nombre_servicio }}</h5>
+                        <p><strong>Descripción: </strong>{{ item.servicio.descripcion }}</p>
+                        <p><strong>Precio: </strong>{{ item.servicio.precio }}</p>
+                        <p><strong>Cantidad: </strong>{{ item.cantidad }}</p>
+                        <p><strong>Odontologo: </strong>{{ item.cita.nombres }}</p>
+                        <p><strong>Cita: </strong>{{ item.cita.fecha }} a las {{ item.cita.hora }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+            
+        {% else %}
+            <p>No hay servicios en tu carrito.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

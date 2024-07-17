@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+
+{% block content %}
+<section class="section-content padding-y">
+    <div class="card mx-auto paper-form" style="max-width:720px; margin-top:40px; ">
+        <h2 class="text-center mb-4">Administrar Servicios</h2>
+
+        <!-- Sección para agregar nuevos servicios -->
+        <div class="card mb-4 bg-gradient-red text-white paper-form">
+            <div class="card-body">
+                <h5 class="card-title">Agregar Nuevo Servicio</h5>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="nombre_servicio">Nombre del Servicio</label>
+                        {% render_field form.nombre_servicio class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="slug">Slug</label>
+                        {% render_field form.slug class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        {% render_field form.descripcion class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Categoría</label>
+                        {% render_field form.category class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="precio">Precio</label>
+                        {% render_field form.precio class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="promocion">Promoción</label>
+                        {% render_field form.promocion class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="porcentaje_promocion">Porcentaje de Promoción</label>
+                        {% render_field form.porcentaje_promocion class="form-control" %}
+                    </div>
+                    <div class="form-group">
+                        <label for="imagen">Imagen</label>
+                        {% render_field form.imagen class="form-control-file" %}
+                    </div>
+                    
+                    <button type="submit" name="add_service" class="btn btn-primary btn-block">Agregar Servicio</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de servicios existentes -->
+        <!-- Lista de servicios existentes -->
+        <div class="row">
+            {% for servicio in servicios %}
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm bg-gradient-red text-white">
+                    <div class="card-body">
+                        {% if servicio.imagen %}
+                        <img src="{{ servicio.imagen.url }}" class="card-img-top" alt="{{ servicio.nombre_servicio }}">
+                        {% endif %}
+                        <h5 class="card-title mt-3">{{ servicio.nombre_servicio }}</h5>
+                        <p class="card-text">{{ servicio.descripcion }}</p>
+                        <p class="card-text"><strong>Precio:</strong> ${{ servicio.precio }}</p>
+                        <p class="card-text"><strong>Promoción:</strong> {{ servicio.porcentaje_promocion }}% de descuento!</p>
+                        
+                        <!-- Formulario para editar promoción y porcentaje de promoción -->
+                        <form method="post" action="{% url 'editar_servicio' servicio.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% render_field form.promocion class="form-control" %}
+                            </div>
+                            <div class="form-group">
+                                {% render_field form.porcentaje_promocion class="form-control" %}
+                            </div>
+                            <button type="submit" class="btn btn-light btn-block">Actualizar Promoción</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var nombreServicioInput = document.querySelector('#id_nombre_servicio');
+        var slugInput = document.querySelector('#id_slug');
+
+        function generateSlug(value) {
+            return value
+                .toLowerCase()                          // Convertir a minúsculas
+                .trim()                                 // Eliminar espacios al principio y al final
+                .replace(/[^\w\s-]/g, '')               // Eliminar caracteres no válidos
+                .replace(/[\s_-]+/g, '-')               // Reemplazar espacios y guiones bajos por guiones
+                .replace(/^-+|-+$/g, '');               // Eliminar guiones al principio y al final
+        }
+
+        nombreServicioInput.addEventListener('input', function() {
+            slugInput.value = generateSlug(this.value);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center">Efecto sonrisa</h1>
+            {% if error %}
+                <p class="text-center text-danger">{{ error }}</p>
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data" class="text-center">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.image.label_tag }} {{ form.image }}
+                </div>
+                <button type="submit" class="btn btn-primary">Aplicar y subir</button>
+            </form>
+            {% if image %}
+                <h2 class="text-center mt-5">Imagen Original</h2>
+                <div class="text-center">
+                    <img src="{{ image.image.url }}" alt="Original Image" class="img-fluid img-thumbnail">
+                </div>
+                <h2 class="text-center mt-5">Mascara</h2>
+                <div class="text-center">
+                    <img src="{{ mask_url }}" alt="Mask Image" class="img-fluid img-thumbnail">
+                </div>
+                <h2 class="text-center mt-5">Resultado Final</h2>
+                {% if edited_image_urls %}
+                    <div class="row">
+                        {% for url in edited_image_urls %}
+                            <div class="col-md-4 text-center mb-4">
+                                <img src="{{ url }}" alt="Edited Image with Braces" class="img-fluid img-thumbnail">
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center">No edited images available.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

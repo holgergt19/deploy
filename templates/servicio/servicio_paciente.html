@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Servicios con Promociones</h2>
+
+    <div class="row">
+        {% for servicio in servicios %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {% if servicio.imagen %}
+                    <img src="{{ servicio.imagen.url }}" class="card-img-top" alt="{{ servicio.nombre }}">
+                    {% endif %}
+                    <h5 class="card-title mt-3">{{ servicio.nombre }}</h5>
+                    <p class="card-text">{{ servicio.descripcion }}</p>
+                    <p class="card-text"><strong>Precio:</strong> ${{ servicio.precio }}</p>
+                    {% if servicio.tiene_promocion %}
+                    <p class="card-text text-danger"><strong>Promoción:</strong> {{ servicio.porcentaje_promocion }}% de descuento!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

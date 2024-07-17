@@ -1,0 +1,51 @@
+<!-- templates/login/paciente_login.html -->
+
+{% extends "base.html" %}
+{% block navbar %}{% endblock %}
+{% load static %}
+{% block content %}
+<section class="section-content padding-y">
+    
+    <!-- Mensaje de verificación de correo -->
+    {% if request.GET.command == 'verification' %}
+        <div class="alert alert-info" role="alert" style="max-width:380px; margin:auto;">
+            Muchas gracias por registrarte en nuestro portal BeiDenti, te hemos enviado un email para confirmar tu cuenta ({{ request.GET.email }}).
+            <br><br>
+            Si ya verificaste tu cuenta, puedes iniciar sesión <a href="{% url 'paciente_login' %}">aquí</a>.
+        </div>
+    
+    <!-- Formulario de inicio de sesión -->
+    {% else %}
+        <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+            <article class="card-body">
+                <div class="card-title text-center">
+                    <h2>Iniciar Sesión</h2>
+                </div>
+                <form method="post" action="{% url 'paciente_login' %}">
+                    {% csrf_token %}
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                            <img src="{% static 'images/logo03.png' %}" alt="BeiDenti Logo" class="img-fluid mb-4">
+                            <h2>BeiDenti-Paciente</h2>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Ingrese email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Ingrese password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </article>
+        </div>
+        <p class="text-center mt-4">¿No tienes una cuenta? <a href="{% url 'paciente_register' %}">Regístrate aquí</a></p>
+        <br><br>
+    {% endif %}
+
+</section>
+{% endblock %}

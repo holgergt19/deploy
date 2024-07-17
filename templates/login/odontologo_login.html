@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block navbar %}{% endblock %}
+{% load static %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+        <article class="card-body">
+            <div class="card-title text-center">
+                <h2>Iniciar Sesion</h2>
+            </div>
+            <form method="post" action="{% url 'odontologo_login' %}">
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <img src="{% static 'images/logo02.png' %}" alt="BeiDenti Logo" class="img-fluid mb-4">
+                        <h2>BeiDenti-Odontologo</h2>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Ingrese email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Ingrese password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                </div>
+            </form>
+        </article>
+    </div>
+    <p class="text-center mt-4">¿No tienes una cuenta? <a href="{% url 'odontologo_register' %}">Regístrate aquí</a></p>
+    <br><br>
+</section>
+{% endblock %}

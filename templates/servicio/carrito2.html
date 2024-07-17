@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Carrito de Servicios</h2>
+    {% if user.is_authenticated %}
+        {% if user.odontologo %}
+            {% if cart_items %}
+                <form method="post" action="{% url 'carttwo' %}">
+                    {% csrf_token %}
+                    <button type="submit" name="limpiar_carrito" class="btn btn-warning mb-3">Limpiar Carrito</button>
+                </form>
+                <ul class="list-group">
+                    {% for item in cart_items %}
+                        <li class="list-group-item">
+                            <h5>Servicio: {{ item.servicio.nombre_servicio }}</h5>
+                            <p>Odontólogo: {{ item.cita.idOdontologo.nombres }} {{ item.cita.idOdontologo.apellidos }}</p>
+                            <p>Paciente: {{ item.cita.idPaciente.nombre }} {{ item.cita.idPaciente.apellido }}</p>
+                            <p>Cita: {{ item.cita.fecha }} - {{ item.cita.hora }}</p>
+                            <p>Estado: {{ item.cita.estado }}</p>
+                            <p>Cantidad: {{ item.cantidad }}</p>
+                            <p>Precio: ${{ item.servicio.precio }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay servicios en el carrito.</p>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>Debes estar autenticado para ver el carrito.</p>
+    {% endif %}
+</div>
+{% endblock %}

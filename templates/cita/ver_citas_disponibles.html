@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Horarios Disponibles</title>
+    <style>
+        .schedule-container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .day-column {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .hour-slot {
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .hour-slot.booked {
+            background-color: red;
+            cursor: not-allowed;
+        }
+        .hour-slot:hover {
+            background-color: #f0f0f0;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function selectSlot(fecha, hora) {
+            document.getElementById('fecha').value = fecha;
+            document.getElementById('hora').value = hora;
+            document.getElementById('citaForm').submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="schedule-container">
+        <h2>Horarios Disponibles de Lunes a Viernes</h2>
+        <form id="citaForm" method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" id="fecha" name="fecha">
+            <input type="hidden" id="hora" name="hora">
+            <div class="form-group">
+                <label for="duracion">Duración (horas)--La primera consulta es 1 hora por defecto.:</label>
+                <select id="duracion" name="duracion" class="form-control">
+                    <option value="1" selected>1 hora</option>
+                    <option value="2">2 horas</option>
+                    <option value="3">3 horas</option>
+                    <option value="4">4 horas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="servicio">Servicio:--La primera consulta es sin servicio por defecto.</label>
+                <select id="servicio" name="servicio" class="form-control">
+                    <option value="sin servicio" selected>Sin Servicio</option>
+                    <option value="con servicio">Con Servicio</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="odontologo">Odontólogo:</label>
+                <select id="odontologo" name="odontologo" class="form-control">
+                    {% for odontologo in odontologos %}
+                        <option value="{{ odontologo.id }}">{{ odontologo.nombres }} {{ odontologo.apellidos }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="schedule">
+            {% for fecha, horas in horarios_disponibles.items %}
+                <div class="day-column">
+                    <h3>{{ fecha|date:"Y-m-d" }}</h3>
+                    {% for hora in horas %}
+                        <div class="hour-slot" onclick="selectSlot('{{ fecha|date:"Y-m-d" }}', '{{ hora|time:"H:i" }}')">{{ hora|time:"H:i" }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if primera_cita_completada %}
+        <h2 class= 'text-center'>Servicios Disponibles</h2>
+        <div style="margin: 40px auto; display: block; width: fit-content;">
+           
+            <a href="{% url 'servicio' %}" class="btn btn-outline-primary btn-spacing">
+                
+                <img src="{% static 'images/service.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Servicios
+            </a>
+            
+        </div>
+    {% endif %}
+</body>
+
+{% endblock %}

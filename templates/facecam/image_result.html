@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Result</title>
+</head>
+<body>
+    <h1>Braces Effect Applied</h1>
+    <p>Original Image:</p>
+    <img src="{{ image.image.url }}" alt="Original Image">
+    <p>Resized Image:</p>
+    <img src="{{ image.resized_image.url }}" alt="Resized Image">
+    <p>Mask:</p>
+    <img src="{{ image.mask.url }}" alt="Mask">
+    <p>Edited Image with Braces:</p>
+    <img src="{{ image.edited_image.url }}" alt="Edited Image">
+    <br>
+    <a href="{% url 'upload_image' %}">Upload Another Image</a>
+</body>
+</html>
+
+{% endblock %}

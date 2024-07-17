@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <h4 class="card-title">Mis Citas</h4>
+        
+        {% if citas %}
+            <ul class="list-group">
+                {% for cita in citas %}
+                    <li class="list-group-item">
+                        <h5>Fecha: {{ cita.fecha|date:"d-m-Y" }}</h5>
+                        <p>Hora: {{ cita.hora|time:"H:i" }}</p>
+                        <p>Duración: {{ cita.duracion }} horas</p>
+                        <p>Odontólogo: {{ cita.idOdontologo.nombres }} {{ cita.idOdontologo.apellidos }}</p>
+                        <p>Estado: 
+                            {% if cita.estado == 'confirmada' %}
+                                <span class="badge badge-success">{{ cita.get_estado_display }}</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ cita.get_estado_display }}</span>
+                            {% endif %}
+                        </p>
+                        <p>Servicio: <span class="badge badge-info">{{ cita.get_servicio_display }}</span></p>
+                        {% if cita.servicio == 'con servicio' %}
+                            <p>Este es un servicio.</p>
+                        {% else %}
+                            <p>Esta es la primera consulta.</p>
+                        {% endif %}
+                    </li>
+                    
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                No tienes citas programadas.
+            </div>
+        {% endif %}
+        <a href="{% url 'ver_citas_disponibles' %}" class="btn btn-outline-primary btn-spacing">
+                
+            <img src="{% static 'images/service.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Seguir a servicios--
+        </a>
+    </div>
+    
+</section>
+{% endblock %}

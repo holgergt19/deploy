@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Seleccione un horario para {{ servicio.nombre }}</h2>
+    {% for fecha, horas in horarios_disponibles.items %}
+        <div>
+            <h3>{{ fecha }}</h3>
+            {% for hora in horas %}
+                <button onclick="window.location.href='{% url 'add_to_cart' servicio.id fecha hora %}'">{{ hora }}</button>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

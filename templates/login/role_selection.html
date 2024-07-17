@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block navbar %}{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <img src="{% static 'images/logo02.png' %}" alt="BeiDenti Logo" class="img-fluid mb-4">
+            <h2>Select Your Role</h2>
+            <div class="mt-4">
+                <a href="{% url 'paciente_login' %}" class="btn btn-primary btn-lg btn-block">Login as Paciente</a>
+                <a href="{% url 'odontologo_login' %}" class="btn btn-secondary btn-lg btn-block">Login as Odontologo</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                {% for icon in icons %}
+                <div class="col-3">
+                    <img src="{% static 'images/'|add:icon %}" alt="Dental Icon" class="img-fluid mb-4">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

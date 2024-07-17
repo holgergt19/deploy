@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <h4 class="card-title">Todas las Citas</h4>
+        <form method="post" class="form-inline mb-3">
+            {% csrf_token %}
+            <button type="submit" name="clear" class="btn btn-warning">Limpiar Citas</button>
+        </form>
+        {% if citas %}
+            <ul class="list-group">
+                {% for cita in citas %}
+                    <li class="list-group-item">
+                        <h5>Paciente: {{ cita.idPaciente.nombre }} {{ cita.idPaciente.apellido }}</h5>
+                        <p>Fecha: {{ cita.fecha }}</p>
+                        <p>Hora: {{ cita.hora }}</p>
+                        <p>Duración: {{ cita.duracion }} horas</p>
+                        <p>Odontólogo: {{ cita.idOdontologo.nombres }} {{ cita.idOdontologo.apellidos }}</p> <!-- Nombre del odontólogo -->
+                        <p>Servicio: {{ cita.get_servicio_display }}</p> <!-- Nombre del servicio -->
+                        <p>Estado actual: {{ cita.get_estado_display }}</p>
+                        <form method="post" class="form-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="cita_id" value="{{ cita.id }}">
+                            {{ form.estado }}
+                            <button type="submit" class="btn btn-primary ml-2">Actualizar Estado</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay citas programadas.</p>
+        {% endif %}
+        <a href="{% url 'reporte_citas' %}" class="btn btn-info">Generar Reporte PDF</a>
+    </div>
+</section>
+{% endblock %}

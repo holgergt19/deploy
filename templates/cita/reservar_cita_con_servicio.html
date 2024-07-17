@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Reserve su Cita</h2>
+    <form method="post" action="{% url 'reservar_cita_con_servicio' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="servicio_id">Servicio:</label>
+            <select name="servicio_id" id="servicio_id" class="form-control" required>
+                {% for servicio in servicios %}
+                <option value="{{ servicio.id }}" {% if servicio.id == selected_service|default_if_none:'' %}selected{% endif %}>
+                    {{ servicio.nombre_servicio }} - ${{ servicio.precio }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="id_fecha">Fecha:</label>
+            <input type="date" id="id_fecha" name="fecha" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="id_hora">Hora:</label>
+            <input type="time" id="id_hora" name="hora" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="id_duracion">Duración:</label>
+            <select id="id_duracion" name="duracion" class="form-control" required>
+                <option value="1">1 hora</option>
+                <option value="2">2 horas</option>
+                <option value="3">3 horas</option>
+                <option value="4">4 horas</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Reservar Cita</button>
+    </form>
+</div>
+{% endblock %}

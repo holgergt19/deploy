@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Buscar Paciente y Historia Clínica</h1>
+    <form method="GET" action="{% url 'buscar_hc' %}">
+        <div class="form-group row">
+            <label for="keyword" class="col-sm-2 col-form-label">Cédula del Paciente:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Ingrese la cédula del paciente" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    {% if pacientes %}
+    <div class="mt-5">
+        <h2>Resultados de la Búsqueda</h2>
+        {% for paciente in pacientes %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ paciente.nombre }} {{ paciente.apellido }}</h5>
+                <p class="card-text">Cédula: {{ paciente.cedula }}</p>
+                <p class="card-text">Dirección: {{ paciente.direccion }}</p>
+                <p class="card-text">Teléfono: {{ paciente.telefono }}</p>
+                
+                <a href="{% url 'crear_hc' paciente.id %}" class="btn btn-primary">Crear Historia Clínica</a>
+
+                <!-- Mostrar historias clínicas asociadas -->
+                {% if historias_clinicas %}
+                <h5 class="mt-4">Historias Clínicas</h5>
+                {% for historia in historias_clinicas %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Historia Clínica de {{ historia.nombres }} {{ historia.apellidos }}</h5>
+                        <p class="card-text">Cédula: {{ historia.cedula }}</p>
+                        <p class="card-text">Motivo de Consulta: {{ historia.motivoConsulta }}</p>
+                        <p class="card-text">Enfermedad: {{ historia.enfermedad }}</p>
+                        <p class="card-text">Antecedentes Personales: {{ historia.antecedentesPersonales }}</p>
+                        <p class="card-text">Signos Vitales: {{ historia.signosVitales }}</p>
+                        <p class="card-text">Sistema Estomatognático: {{ historia.sistemaEstomatognatico }}</p>
+                        <p class="card-text">Salud Bucal: {{ historia.saludBucal }}</p>
+                        <p class="card-text">Índices CPO: {{ historia.indicesCPO }}</p>
+                        <p class="card-text">Diagnóstico: {{ historia.diagnostico }}</p>
+                        <p class="card-text">Fecha de Creación: {{ historia.fechacreacion }}</p>
+                        
+                        <!-- Botón para descargar la historia clínica como PDF -->
+                        <a href="{% url 'generar_pdf' historia.id %}" class="btn btn-secondary">Descargar PDF</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No se encontraron historias clínicas para este paciente.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif keyword %}
+    <div class="mt-5 alert alert-danger" role="alert">
+        No se encontró ningún paciente con la cédula proporcionada.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

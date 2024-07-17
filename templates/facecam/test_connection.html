@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Prueba de Conexión a la API de DALL-E</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if image_url %}
+    <div class="mt-5">
+        <h2>Resultado de la Conexión</h2>
+        <p><strong>URL de la imagen generada:</strong> <a href="{{ image_url }}" target="_blank">{{ image_url }}</a></p>
+        <img src="{{ image_url }}" alt="Imagen generada" class="img-fluid" />
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Buscar Pacientes y Radiografías</h2>
+
+    <!-- Formulario de búsqueda -->
+    <form method="GET" action="{% url 'search' %}">
+        <div class="form-group row">
+            <label for="keyword" class="col-sm-2 col-form-label">Cédula del Paciente:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Ingrese la cédula del paciente" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <!-- Resultados de la búsqueda -->
+    {% if pacientes %}
+    <h4 class="mt-4">Resultados de la búsqueda</h4>
+    <div class="list-group">
+        {% for paciente in pacientes %}
+        <a href="{% url 'subir_radiografia' paciente.id %}" class="list-group-item list-group-item-action">
+            {{ paciente.nombres }} {{ paciente.apellidos }} - Cédula: {{ paciente.cedula }}
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Buscar pacientes por su cédula.</p>
+    {% endif %}
+
+    <!-- Mostrar radiografías -->
+    {% if radiografias %}
+    <h4 class="mt-4">Radiografías encontradas</h4>
+    <div class="row">
+        {% for radiografia in radiografias %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{ radiografia.imagen.url }}" class="card-img-top" alt="Radiografía">
+                <div class="card-body">
+                    <h5 class="card-title">Paciente: {{ radiografia.idPaciente }}</h5>
+                    <p class="card-text">Odontólogo: {{ radiografia.idOdontologo }}</p>
+                    <p class="card-text">Fecha: {{ radiografia.fecha }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif keyword %}
+    <div class="mt-5 alert alert-danger" role="alert">
+        No se encontró ningún paciente con la cédula proporcionada.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

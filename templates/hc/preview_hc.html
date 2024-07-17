@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historia Clínica</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 100%; padding: 20px; }
+        .header { text-align: center; }
+        .content { margin-top: 20px; }
+        .field { margin-bottom: 10px; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Historia Clínica</h1>
+            <h2>{{ historia.nombres }} {{ historia.apellidos }}</h2>
+        </div>
+        <div class="content">
+            <div class="field">
+                <div class="label">Cédula:</div>
+                <div>{{ historia.cedula }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Dirección:</div>
+                <div>{{ historia.direccion }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Sexo:</div>
+                <div>{{ historia.get_sexo_display }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Edad:</div>
+                <div>{{ historia.edad }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Motivo de Consulta:</div>
+                <div>{{ historia.motivoConsulta }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Enfermedad:</div>
+                <div>{{ historia.enfermedad }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Antecedentes Personales:</div>
+                <div>{{ historia.antecedentesPersonales }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Signos Vitales:</div>
+                <div>{{ historia.signosVitales }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Sistema Estomatognático:</div>
+                <div>{{ historia.sistemaEstomatognatico }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Salud Bucal:</div>
+                <div>{{ historia.saludBucal }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Índices CPO:</div>
+                <div>{{ historia.indicesCPO }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Diagnóstico:</div>
+                <div>{{ historia.diagnostico }}</div>
+            </div>
+            <div class="field">
+                <div class="label">Fecha de Creación:</div>
+                <div>{{ historia.fechacreacion }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+            <article class="card-body">
+                <header class="mb-4">
+                    <h4 class="card-title">Subir Radiografía</h4>
+                </header>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="paciente">Paciente:</label>
+                        <input type="text" class="form-control" id="paciente" value="{{ paciente.nombre }} {{ paciente.apellido }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="imagen">Imagen de la Radiografía</label>
+                        {{ form.imagen }}
+                        {% if form.imagen.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.imagen.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Subir</button>
+                    </div>
+                </form>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

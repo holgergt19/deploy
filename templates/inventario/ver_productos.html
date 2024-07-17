@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Inventory</h2>
+    
+    <!-- Botón para generar el reporte PDF -->
+    <div class="text-center mb-4">
+        <a href="{% url 'generar_reporte_pdf' %}" class="btn btn-success">
+            Generar Reporte PDF
+        </a>
+    </div>
+
+    <!-- Formulario para agregar productos -->
+    <div class="card shadow-sm mt-4 col-md-4 mx-auto bg-gradient-red text-white">
+        <div class="card-body">
+            <h5 class="card-title">Agregar  Producto</h5>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    {% render_field form.nombre class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="cantidad">Cantidad</label>
+                    {% render_field form.cantidad class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">descripcion</label>
+                    {% render_field form.descripcion class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="umbral">Umbral</label>
+                    {% render_field form.umbral class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="fecha_expiracion">Fecha de expiración</label>
+                    {% render_field form.fecha_expiracion class="form-control" %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Añadir producto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de productos -->
+    <div class="row mt-5">
+        {% for producto in productos %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm bg-gradient-red text-white">
+                <div class="card-body">
+                    <h5 class="card-title">🦷 {{ producto.nombre }}</h5>
+                    <p class="card-text">{{ producto.descripcion }}</p>
+                    <p class="card-text"><strong>Quantity:</strong> {{ producto.cantidad }}</p>
+                    <p class="card-text"><strong>Expiration Date:</strong> {{ producto.fecha_expiracion }}</p>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="cantidad_{{ producto.id }}">Update Quantity</label>
+                            <input type="number" id="cantidad_{{ producto.id }}" name="cantidad_{{ producto.id }}" value="{{ producto.cantidad }}" class="form-control" min="0">
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-sm">Modify</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

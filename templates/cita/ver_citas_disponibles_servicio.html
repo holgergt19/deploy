@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Horarios Disponibles</title>
+    <style>
+        .schedule-container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .day-column {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .hour-slot {
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .hour-slot.booked {
+            background-color: red;
+            cursor: not-allowed;
+        }
+    </style>
+    <script>
+        function selectSlot(fecha, hora, servicioId) {
+            document.getElementById('fecha').value = fecha;
+            document.getElementById('hora').value = hora;
+            document.getElementById('servicio_id').value = servicioId;
+            document.getElementById('citaForm').submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="schedule-container">
+        <h2>Horarios Disponibles para el Servicio Seleccionado</h2>
+        <!-- Selector de servicio -->
+        <select id="servicio_id" class="form-control mb-3" onchange="updateService(this.value)">
+            {% for servicio in servicios %}
+            <option value="{{ servicio.id }}">{{ servicio.nombre }} - {{ servicio.duracion }} hora(s)</option>
+            {% endfor %}
+        </select>
+        <form id="citaForm" method="post" action="{% url 'reservar_cita_con_servicio' %}">
+            {% csrf_token %}
+            <input type="hidden" id="fecha" name="fecha">
+            <input type="hidden" id="hora" name="hora">
+            <input type="hidden" id="servicio_id" name="servicio_id">
+            <div class="schedule">
+                {% for fecha, horas in horarios_disponibles.items %}
+                    <div class="day-column">
+                        <h3>{{ fecha|date:"Y-m-d" }}</h3>
+                        {% for hora in horas %}
+                            <div class="hour-slot" onclick="selectSlot('{{ fecha|date:"Y-m-d" }}', '{{ hora|time:"H:i" }}', document.getElementById('servicio_id').value)">
+                                {{ hora|time:"H:i" }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

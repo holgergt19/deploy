@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="card mx-auto paper-form" style="max-width:720px; margin-top:40px;">
+            <article class="card-body">
+                <header class="mb-4 text-center">
+                    <h4 class="card-title">Crear Historia Clínica para {{ paciente.nombre }} {{ paciente.apellido }}</h4>
+                </header>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Dirección y Sexo -->
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" name="direccion" class="form-control small-input" placeholder="Ingrese dirección">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="sexo">Sexo</label>
+                            <select name="sexo" class="form-control small-input">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Edad y Número de Historia Clínica -->
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="edad">Edad</label>
+                            <input type="number" name="edad" class="form-control small-input" placeholder="Ingrese edad">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="nHistoriaClinica">Número de Historia Clínica</label>
+                            <input type="text" name="nHistoriaClinica" class="form-control small-input" value="{{ 'HC'|add:next_hc_number }}" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Motivo de Consulta -->
+                    <div class="form-group">
+                        <label for="motivoConsulta">Motivo de Consulta</label>
+                        <textarea name="motivoConsulta" class="form-control small-textarea" placeholder="Ingrese motivo de consulta"></textarea>
+                    </div>
+
+                    <!-- Enfermedad -->
+                    <div class="form-group">
+                        <label for="enfermedad">Enfermedad</label>
+                        <textarea name="enfermedad" class="form-control small-textarea" placeholder="Ingrese enfermedad"></textarea>
+                    </div>
+
+                    <!-- Antecedentes Personales -->
+                    <div class="form-group">
+                        <label for="antecedentesPersonales">Antecedentes Personales</label>
+                        <textarea name="antecedentesPersonales" class="form-control small-textarea" placeholder="Ingrese antecedentes personales"></textarea>
+                    </div>
+
+                    <!-- Signos Vitales -->
+                    <div class="form-group">
+                        <label for="signosVitales">Signos Vitales</label>
+                        <textarea name="signosVitales" class="form-control small-textarea" placeholder="Ingrese signos vitales"></textarea>
+                    </div>
+
+                    <!-- Sistema Estomatognático -->
+                    <div class="form-group">
+                        <label for="sistemaEstomatognatico">Sistema Estomatognático</label>
+                        <textarea name="sistemaEstomatognatico" class="form-control small-textarea" placeholder="Ingrese sistema estomatognático"></textarea>
+                    </div>
+
+                    <!-- Salud Bucal -->
+                    <div class="form-group">
+                        <label for="saludBucal">Salud Bucal</label>
+                        <textarea name="saludBucal" class="form-control small-textarea" placeholder="Ingrese salud bucal"></textarea>
+                    </div>
+
+                    <!-- Índices CPO -->
+                    <div class="form-group">
+                        <label for="indicesCPO">Índices CPO</label>
+                        <textarea name="indicesCPO" class="form-control small-textarea" placeholder="Ingrese índices CPO"></textarea>
+                    </div>
+
+                    <!-- Diagnóstico -->
+                    <div class="form-group">
+                        <label for="diagnostico">Diagnóstico</label>
+                        <textarea name="diagnostico" class="form-control small-textarea" placeholder="Ingrese diagnóstico"></textarea>
+                    </div>
+
+                    <!-- Botón de Enviar -->
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">Crear Historia Clínica</button>
+                    </div>
+                </form>
+                <div class="mt-3 text-center">
+                    <a href="{% url 'buscar_hc' %}" class="btn btn-secondary">Buscar Paciente</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}

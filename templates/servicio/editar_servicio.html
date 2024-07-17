@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Servicio</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Modificar Servicio</h5>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="paciente">Paciente</label>
+                    {% render_field form.paciente class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="nombre_servicio">Nombre del Servicio</label>
+                    {% render_field form.nombre_servicio class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="slug">Slug</label>
+                    {% render_field form.slug class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    {% render_field form.descripcion class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoría</label>
+                    {% render_field form.category class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    {% render_field form.precio class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="promocion">Promoción</label>
+                    {% render_field form.promocion class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="porcentaje_promocion">Porcentaje de Promoción</label>
+                    {% render_field form.porcentaje_promocion class="form-control" %}
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    {% render_field form.imagen class="form-control-file" %}
+                </div>
+                <div class="form-group form-check">
+                    <label for="is_available">Disponible</label>
+                    {% render_field form.is_available class="form-check-input" %}
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </form>
+</div>
+{% endblock %}

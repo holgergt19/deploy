@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ========================= SECTION MAIN ========================= -->
+<section class="section-intro padding-y-sm">
+    <div class="container">
+     
+    <div class="intro-banner-wrap">
+        <img src="{% static 'images/banners/ban2.jpg' %}" class="img-fluid rounded">
+    </div>
+     
+    </div> <!-- container //  -->
+    </section>
+<!-- ========================= SECTION MAIN END// ========================= -->
+
+<!-- ========================= SECTION MISION ========================= -->
+<section class=" padding-y-lg text-center">
+    <div class="container">
+        <header class="section-heading">
+            <h2 class="section-title">Misión</h2>
+            <p class="lead">Nuestra misión en BeiDenti es proporcionar servicios odontológicos de la más alta calidad, enfocándonos en la prevención, diagnóstico y tratamiento de las enfermedades bucales. Nos comprometemos a utilizar las tecnologías más avanzadas y a mantenernos actualizados con los últimos avances en la odontología para asegurar el bienestar y la satisfacción de nuestros pacientes. Creemos en la importancia de educar a nuestros pacientes sobre la salud bucal, promoviendo hábitos de higiene y prevención que contribuyan a una vida libre de enfermedades dentales. Nuestro equipo de profesionales está dedicado a brindar un trato personalizado, humano y empático, creando un ambiente acogedor y confortable para todos nuestros pacientes.</p>
+        </header>
+    </div>
+</section>
+<!-- ========================= SECTION MISION END// ========================= -->
+
+<!-- ========================= SECTION VISION ========================= -->
+<section class="padding-y-lg text-center">
+    <div class="container">
+        <header class="section-heading">
+            <h2 class="section-title">Visión</h2>
+            <p class="lead">Nuestra visión es ser reconocidos como líderes en la industria odontológica, no solo por la excelencia en nuestros servicios, sino también por nuestro compromiso con la innovación y la mejora continua. Aspiramos a ser un consultorio odontológico de referencia, donde la calidad del servicio y la satisfacción del paciente son nuestras principales prioridades. Queremos ser pioneros en la implementación de nuevas tecnologías y técnicas de tratamiento que mejoren la salud bucal y la calidad de vida de nuestros pacientes. Nos esforzamos por crear una cultura de salud preventiva en la comunidad, educando y motivando a las personas a cuidar de su salud bucal desde temprana edad. Nuestro objetivo es contribuir a una sociedad con sonrisas más sanas y felices, estableciendo relaciones duraderas y de confianza con nuestros pacientes.</p>
+        </header>
+    </div>
+</section>
+<!-- ========================= SECTION VISION END// ========================= -->
+
+<!-- ========================= SECTION SERVICIOS ========================= -->
+<section class="section-name padding-y-sm bg-gradient-blue ">
+    <div class="container ">
+        <header class="section-heading">
+            <h3 class="section-title text-center">Servicios Odontológicos</h3>
+        </header>
+        <div class="row ">
+            {% for servicio in servicios %}
+            <div class="col-md-4 mb-4">
+                <div class="card service-card ">
+                    <div class="img-container hover-zoom:hover">
+                        <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre_servicio }}" class="img-fluid">
+                    </div>
+                    <div class="overlay-text">
+                        <h5 class="title">{{ servicio.nombre_servicio }}</h5>
+                        <div class="price mt-1">{{ servicio.precio }} USD</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-name padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            
+        </header>
+        <div class="text-center">
+            <img src="{% static 'images/ubicacion.png' %}" alt="Ubicación" class="img-fluid">
+        </div>
+    </div>
+</section>
+<!-- ========================= SECTION SERVICIOS END// ========================= -->
+
+{% endblock %}

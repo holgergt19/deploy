@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Resultado del Procesamiento</h2>
+
+    <div class="mt-3">
+        <h4>Imagen Original</h4>
+        <img src="{{ image_upload.original_image.url }}" alt="Imagen Original" style="max-width: 100%; height: auto;">
+
+        <h4 class="mt-4">Imagen Procesada</h4>
+        {% if image_upload.processed_image %}
+            <img src="{{ image_upload.processed_image.url }}" alt="Imagen Procesada" style="max-width: 100%; height: auto;">
+        {% else %}
+            <p>La imagen aún no ha sido procesada.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Consultorio Odontológico</title>
+    <link rel="stylesheet" href="{% static 'css/ui.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "Inter", sans-serif;
+        }
+
+        .contact-info {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #b04a5a; /* Color vino claro */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .contact-info h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .contact-info .info-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info .info-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .contact-info .info-group p {
+            margin: 0;
+        }
+
+        .contact-info .info-group img {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contact-info">
+    <h2>Contacto</h2>
+    <div class="info-group">
+        <label>Nombre:</label>
+        <p>Beidenti</p>
+    </div>
+    <div class="info-group">
+        <label>Teléfono:</label>
+        <p>0995678593</p>
+    </div>
+    <div class="info-group">
+        <label>Dirección:</label>
+        <img src="{% static 'images/mapa.png' %}" alt="Mapa">
+        <p>Calle puna, Quito, Ecuador</p>
+    </div>
+    <div class="info-group">
+        <label>Correo Electrónico:</label>
+        <p>beidenti2024@gmail.com</p>
+    </div>
+    <div class="info-group">
+        <label>Horario de Atención:</label>
+        <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+        
+    </div>
+</div>
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Add New Product</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="nombre">Name</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group">
+                    <label for="cantidad">Quantity</label>
+                    {{ form.cantidad }}
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Description</label>
+                    {{ form.descripcion }}
+                </div>
+                <div class="form-group">
+                    <label for="umbral">Threshold</label>
+                    {{ form.umbral }}
+                </div>
+                <div class="form-group">
+                    <label for="fecha_expiracion">Expiration Date</label>
+                    {{ form.fecha_expiracion }}
+                </div>
+                <button type="submit" class="btn btn-primary">Save Product</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

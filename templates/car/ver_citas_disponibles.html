@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Horarios Disponibles</title>
+    <style>
+        .schedule-container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .day-column {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .hour-slot {
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .hour-slot.booked {
+            background-color: red;
+            cursor: not-allowed;
+        }
+    </style>
+    <script>
+        function selectSlot(fecha, hora) {
+            document.getElementById('fecha').value = fecha;
+            document.getElementById('hora').value = hora;
+            document.getElementById('citaForm').submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="schedule-container">
+        <h2>Horarios Disponibles de Lunes a Viernes</h2>
+        <form id="citaForm" method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" id="fecha" name="fecha">
+            <input type="hidden" id="hora" name="hora">
+        </form>
+        <div class="schedule">
+            {% for fecha, horas in horarios_disponibles.items %}
+                <div class="day-column">
+                    <h3>{{ fecha|date:"Y-m-d" }}</h3>
+                    {% for hora in horas %}
+                        <div class="hour-slot" onclick="selectSlot('{{ fecha|date:"Y-m-d" }}', '{{ hora|time:"H:i" }}')">{{ hora|time:"H:i" }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

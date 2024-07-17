@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">{{ servicio.nombre_servicio }}</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            {% if servicio.imagen %}
+            <img src="{{ servicio.imagen.url }}" class="img-fluid mb-4 img-bordered" alt="{{ servicio.nombre_servicio }}">
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h3>Detalles del Servicio</h3>
+                <p>{{ servicio.descripcion }}</p>
+                <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
+                <p><strong>Duración:</strong> {{ servicio.duracion }} horas</p>
+                {% if servicio.tiene_promocion %}
+                <p><strong>Promoción:</strong> {{ servicio.porcentaje_promocion }}% de descuento!</p>
+                {% endif %}
+                
+                <h4>Selecciona tu Cita tomando en cuenta la duración del servicio </h4>
+                <a href="{% url 'ver_citas_disponibles' %}" class="btn btn-secondary bg-green">Crear cita</a>
+                <form method="post" action="{% url 'add_cart' servicio.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h4>Seleccionar:</h4>
+                        <select name="cita" id="cita" class="form-control">
+                            {% for cita in citas %}
+                            <option value="{{ cita.id }}">{{ cita.fecha }} - {{ cita.hora }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Agregar al Carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+        <h4 class="card-title">Seleccionar Cita para {{ servicio.nombre_servicio }}</h4>
+        <form method="post" action="{% url 'add_to_cart' servicio.id %}" id="addCartForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cita">Cita</label>
+                <select id="cita" name="cita" class="form-control">
+                    <option value="">Seleccione una cita</option>
+                    {% for dia, horas in horarios_disponibles.items %}
+                        {% for hora in horas %}
+                            <option value="{{ dia }} {{ hora }}">{{ dia }} a las {{ hora }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-primary"> 
+                <span class="text">Agregar al carrito</span> 
+                <i class="fas fa-shopping-cart"></i>  
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

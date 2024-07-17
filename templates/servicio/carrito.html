@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Carrito de Compras</h2>
+    {% if user.is_authenticated %}
+        {% if user.paciente %}
+            {% if cart_items %}
+                <ul class="list-group">
+                    {% for item in cart_items %}
+                        <li class="list-group-item">
+                            <h5>Servicio: {{ item.servicio.nombre_servicio }}</h5>
+                            <p>Odontólogo: {{ item.cita.idOdontologo.nombres }} {{ item.cita.idOdontologo.apellidos }}</p>
+                            <p>Cita: {{ item.cita.fecha }} - {{ item.cita.hora }}</p>
+                            <p>Cantidad: {{ item.cantidad }}</p>
+                            <p>Precio: ${{ item.servicio.precio }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay servicios en el carrito.</p>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>Debes estar autenticado para ver el carrito.</p>
+    {% endif %}
+</div>
+{% endblock %}
