@@ -9,8 +9,8 @@ from .models import ImageUpload
 import requests
 
 # Ruta al predictor de puntos clave faciales de dlib
-predictor_path = os.path.join('C:\\django\\deploy', 'shape_predictor_68_face_landmarks.dat')
-#predictor_path = os.path.join(os.getcwd(), 'shape_predictor_68_face_landmarks.dat')
+#predictor_path = os.path.join('C:\\django\\deploy', 'shape_predictor_68_face_landmarks.dat')
+predictor_path = os.path.join(os.getcwd(), 'shape_predictor_68_face_landmarks.dat')
 
 
 # Cargar los modelos dlib
