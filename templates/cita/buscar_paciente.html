@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Buscar Paciente por Cédula</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" name="cedula" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+    
+    {% if paciente %}
+        <h3>Paciente Encontrado:</h3>
+        <p><strong>Nombre:</strong> {{ paciente.nombre }} {{ paciente.apellido }}</p>
+        <p><strong>Cédula:</strong> {{ paciente.cedula }}</p>
+        
+        <a href="{% url 'ver_citas_disponibles' paciente.id %}" class="btn btn-success">Ver Citas Disponibles</a>
+        
+    {% endif %}
+</div>
+{% endblock %}

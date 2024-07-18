@@ -22,3 +22,7 @@ class CitaOdontologoForm(forms.ModelForm):
             'estado': forms.Select(attrs={'class': 'form-control'}),
             
         }
+        
+        
+class BuscarPacienteForm(forms.Form):
+    cedula = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Cédula del paciente'}))

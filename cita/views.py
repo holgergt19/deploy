@@ -8,9 +8,10 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from cita.notificacion import enviar_notificacion_cita_actualizada
 from odontologo.models import Odontologo
+from paciente.models import Paciente
 
 from .models import Cita
-from .forms import CitaForm, CitaOdontologoForm
+from .forms import CitaForm, CitaOdontologoForm, BuscarPacienteForm
 
 
 
@@ -47,12 +48,27 @@ def generar_reporte_citas(request):
     p.showPage()
     p.save()
     return response
-def ver_citas_disponibles(request):
-    if not hasattr(request.user, 'paciente'):
-        messages.error(request, 'Solo los pacientes pueden ver citas disponibles.')
-        return redirect('home_paciente')
 
-    primera_cita_completada = Cita.objects.filter(idPaciente=request.user.paciente, estado='confirmada').exists()
+
+@login_required
+def ver_citas_disponibles(request, paciente_id=None):
+    es_paciente = hasattr(request.user, 'paciente')
+    es_odontologo = hasattr(request.user, 'odontologo')
+    
+    if not es_paciente and not es_odontologo:
+        messages.error(request, 'Solo los pacientes y odontólogos pueden ver citas disponibles.')
+        return redirect('home')
+    
+    if es_paciente:
+        paciente = request.user.paciente
+        primera_cita_completada = Cita.objects.filter(idPaciente=paciente, estado='confirmada').exists()
+    elif es_odontologo and paciente_id:
+        paciente = get_object_or_404(Paciente, id=paciente_id)
+        primera_cita_completada = Cita.objects.filter(idPaciente=paciente, estado='confirmada').exists()
+    else:
+        messages.error(request, 'Odontólogo debe seleccionar un paciente.')
+        return redirect('buscar_paciente')
+
     hoy = datetime.today()
     lunes = hoy - timedelta(days=hoy.weekday())
     dias_laborales = [lunes + timedelta(days=i) for i in range(5)]
@@ -75,7 +91,6 @@ def ver_citas_disponibles(request):
     if request.method == 'POST':
         fecha = request.POST.get('fecha')
         hora = request.POST.get('hora')
-        servic = request.POST.get('hora')
         duracion = int(request.POST.get('duracion', 1))
         servicio = request.POST.get('servicio', 'sin servicio')
         odontologo_id = request.POST.get('odontologo')
@@ -85,7 +100,7 @@ def ver_citas_disponibles(request):
             hora = datetime.strptime(hora, "%H:%M").time()
             odontologo = Odontologo.objects.get(id=odontologo_id)
             nueva_cita = Cita.objects.create(
-                idPaciente=request.user.paciente,
+                idPaciente=paciente,
                 idOdontologo=odontologo,
                 fecha=fecha,
                 hora=hora,
@@ -95,17 +110,45 @@ def ver_citas_disponibles(request):
             )
             nueva_cita.save()
             messages.success(request, 'Cita creada con éxito.')
-            return redirect('ver_citas')
+            if es_paciente:
+                return redirect('ver_citas')
+            else:
+                return redirect('ver_citas_odontologo')
         else:
             messages.error(request, 'Por favor seleccione una fecha, hora y odontólogo válidos.')
 
     context = {
         'horarios_disponibles': dict(horarios_disponibles),
         'primera_cita_completada': primera_cita_completada,
-        'odontologos': Odontologo.objects.all(),  # Pasar los odontólogos al contexto
-        'form': CitaForm()
+        'odontologos': Odontologo.objects.all(),
+        'form': CitaForm(),
+        'paciente': paciente  # Añadir el paciente al contexto
     }
     return render(request, 'cita/ver_citas_disponibles.html', context)
+
+
+
+
+@login_required
+def buscar_paciente(request):
+    if not hasattr(request.user, 'odontologo'):
+        messages.error(request, 'Solo los odontólogos pueden crear citas para pacientes.')
+        return redirect('home')
+
+    paciente = None
+    if request.method == 'POST':
+        form = BuscarPacienteForm(request.POST)
+        if form.is_valid():
+            cedula = form.cleaned_data['cedula']
+            try:
+                paciente = Paciente.objects.get(cedula=cedula)
+            except Paciente.DoesNotExist:
+                messages.error(request, 'Paciente no encontrado.')
+    else:
+        form = BuscarPacienteForm()
+
+    return render(request, 'cita/buscar_paciente.html', {'form': form, 'paciente': paciente})
+
 
 @login_required
 def ver_citas_odontologo(request):

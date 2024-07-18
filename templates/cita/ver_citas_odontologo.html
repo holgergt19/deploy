@@ -7,6 +7,7 @@
             {% csrf_token %}
             <button type="submit" name="clear" class="btn btn-warning">Limpiar Citas</button>
         </form>
+        <a href="{% url 'buscar_paciente' %}" class="btn btn-primary mb-3">Crear Cita para Paciente</a> <!-- Botón para crear cita -->
         {% if citas %}
             <ul class="list-group">
                 {% for cita in citas %}

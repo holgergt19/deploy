@@ -6,7 +6,7 @@ from cita.models import Cita
 from servicio.models import Servicio
 from .models import  Cart, CartItem
 
-
+from car.notificacion import enviar_notificacion_agregar_carrito
 
 def _cart_id(request):
     cart = request.session.session_key
@@ -18,6 +18,8 @@ def _cart_id(request):
 @login_required
 def add_cart(request, servicio_id):
     servicio = get_object_or_404(Servicio, id=servicio_id)
+    cita_id = request.POST.get('cita')
+    cita = get_object_or_404(Cita, id=cita_id)
 
     try:
         cart = Cart.objects.get(user=request.user)
@@ -29,9 +31,6 @@ def add_cart(request, servicio_id):
             idOdontologo=request.user.odontologo if hasattr(request.user, 'odontologo') else None
         )
         cart.save()
-
-    cita_id = request.POST.get('cita')
-    cita = get_object_or_404(Cita, id=cita_id)
 
     try:
         cart_item = CartItem.objects.get(servicio=servicio, cita=cita, cart=cart)
@@ -46,8 +45,34 @@ def add_cart(request, servicio_id):
         )
         cart_item.save()
 
+    # Enviar notificación al usuario
+    enviar_notificacion_agregar_carrito(request.user, servicio, cita)
+
     messages.success(request, 'El servicio y la cita se han añadido al carrito.')
-    return redirect('cart')
+
+    # Redirige según el tipo de usuario
+    if hasattr(request.user, 'paciente'):
+        return redirect('cart')
+    elif hasattr(request.user, 'odontologo'):
+        return redirect('carttwo')
+    else:
+        # Redirige a una página por defecto si el usuario no es ni paciente ni odontólogo
+        return redirect('home')
+
+
+@login_required
+def cart(request):
+    try:
+        cart = Cart.objects.get(user=request.user)
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+    except Cart.DoesNotExist:
+        cart_items = []
+
+    context = {
+        'cart_items': cart_items,
+    }
+    return render(request, 'servicio/carrito.html', context)
+
 
 @login_required
 def cart(request):
@@ -70,7 +95,8 @@ def carttwo(request):
 
     if request.method == 'POST' and 'limpiar_carrito' in request.POST:
         try:
-            cart_items = CartItem.objects.filter(cart__user__paciente__isnull=False, is_active=True)
+            cart = Cart.objects.get(user=request.user)
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
             for item in cart_items:
                 item.is_active = False
                 item.save()
@@ -80,7 +106,8 @@ def carttwo(request):
         return redirect('carttwo')
 
     try:
-        cart_items = CartItem.objects.filter(cart__user__paciente__isnull=False, is_active=True)
+        cart = Cart.objects.get(user=request.user)
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
     except Cart.DoesNotExist:
         cart_items = []
 

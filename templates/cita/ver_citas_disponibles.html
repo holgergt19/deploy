@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-
 <head>
     <meta charset="UTF-8">
     <title>Horarios Disponibles</title>
@@ -108,16 +106,12 @@
         </div>
     </div>
     {% if primera_cita_completada %}
-        <h2 class= 'text-center'>Servicios Disponibles</h2>
+        <h2 class="text-center">Servicios Disponibles</h2>
         <div style="margin: 40px auto; display: block; width: fit-content;">
-           
             <a href="{% url 'servicio' %}" class="btn btn-outline-primary btn-spacing">
-                
                 <img src="{% static 'images/service.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Servicios
             </a>
-            
         </div>
     {% endif %}
 </body>
-
 {% endblock %}

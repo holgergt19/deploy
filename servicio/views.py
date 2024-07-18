@@ -86,24 +86,26 @@ def editar_servicio(request, servicio_id):
     }
     return render(request, 'servicio/servicio_odontologo.html', context)
 
-def servicio_detalle(request, category_slug, nombre_servicio_slug):
-    """
-    Vista para mostrar los detalles de un servicio y permitir la selección de una cita.
-    """
-    try:
-        servicio = Servicio.objects.get(category__slug=category_slug, slug=nombre_servicio_slug)
-    except Servicio.DoesNotExist:
-        raise Http404("Servicio no encontrado")
 
-    # Filtra las citas disponibles para el servicio y el paciente actual
-    citas = Cita.objects.filter(idPaciente=request.user.paciente, estado='confirmada', servicio='con servicio')
+def servicio_detalle(request, category_slug, nombre_servicio_slug):
+    servicio = get_object_or_404(Servicio, category__slug=category_slug, slug=nombre_servicio_slug)
+
+    if hasattr(request.user, 'paciente'):
+        citas = Cita.objects.filter(idPaciente=request.user.paciente, estado='confirmada', servicio='con servicio')
+    elif hasattr(request.user, 'odontologo'):
+        citas = Cita.objects.filter(idOdontologo=request.user.odontologo, estado='confirmada', servicio='con servicio')
+    else:
+        citas = []
 
     if request.method == 'POST':
         form = CitaForm(request.POST)
         if form.is_valid():
             nueva_cita = form.save(commit=False)
-            nueva_cita.idPaciente = request.user.paciente
-            nueva_cita.idOdontologo = servicio.user.odontologo if hasattr(servicio.user, 'odontologo') else None  # Asigna el odontólogo si el usuario es un odontólogo
+            if hasattr(request.user, 'paciente'):
+                nueva_cita.idPaciente = request.user.paciente
+            if hasattr(request.user, 'odontologo'):
+                nueva_cita.idOdontologo = request.user.odontologo
+            nueva_cita.servicio = servicio
             nueva_cita.save()
             return redirect('servicio_detalle', category_slug=category_slug, nombre_servicio_slug=nombre_servicio_slug)
     else:
@@ -114,5 +116,5 @@ def servicio_detalle(request, category_slug, nombre_servicio_slug):
         'citas': citas,
         'form': form,
     }
-    
+
     return render(request, 'servicio/servicio_detalle.html', context)

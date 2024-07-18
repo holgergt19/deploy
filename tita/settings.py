@@ -30,7 +30,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://proyecto-db01c98a6cad.herokuapp.com/','*']
 
@@ -109,6 +109,17 @@ AUTH_USER_MODEL = 'login.Account'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 import os
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'p2',  # Nombre de la base de datos que ya tienes creada
+        'USER': 'postgres',  # Nombre de usuario de tu PostgreSQL
+        'PASSWORD': '12345',  # Contraseña de tu usuario PostgreSQL
+        'HOST': 'localhost',  # Host donde se está ejecutando PostgreSQL
+        'PORT': '5432',  # Puerto donde se está ejecutando PostgreSQL (generalmente 5432)
+    }
+}
+
 import dj_database_url
 
 DATABASES = {
