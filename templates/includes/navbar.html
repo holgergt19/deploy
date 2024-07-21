@@ -1,146 +1,104 @@
 {% load static %}
- 
+
 <header class="section-header ">
-    <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom ">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
-    </div> <!-- container //  -->
-    </nav>
-   
-    <section class="border-bottom ">
+    <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
         <div class="container">
-    <div class="row align-items-center  ">
+            <a href="{% url 'home_paciente' %}" class="navbar-brand">
+                <img class="logo img-md" src="{% static 'images/logo03.png' %}" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarTop4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        
-       
-        
-        {% if user.is_authenticated %}
-            {% if user.paciente %}
-
-                <div class=" flex-grow-2 col-lg-13   ">
-                    <a href="{% url 'home_paciente' %}" class="col-md-auto brand-wrap ">
-                        <img class="logo  img-md  " src="{% static 'images/logo03.png' %}" alt="Logo">
-                    </a> <!-- brand-wrap.// -->
-                </div>
-
-                <a href="{% url 'crear_cita' %}" class="btn btn-outline-primary btn-spacing ">
-                    <img src="{% static 'images/citaboton.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Citas
-                </a>
-                <a href="{% url 'chat' %}" class="btn btn-outline-primary btn-spacing">
-                    <img src="{% static 'images/chatbot.png' %}" alt="ChatBot" style="width: 20px; height: 20px; margin-right: 5px;"> ChatBot
-                </a>
-            {% elif user.odontologo %}
-                
-                <div class=" flex-grow-2 col-lg-13   ">
-                    <a href="{% url 'home_odontologo' %}" class="col-md-auto brand-wrap ">
-                        <img class="logo  img-md  " src="{% static 'images/logo03.png' %}" alt="Logo">
-                    </a> <!-- brand-wrap.// -->
-                </div>
-
-                <a href="{% url 'ver_citas_odontologo' %}" class="btn btn-outline-primary">
-                    <img src="{% static 'images/citaboton.png' %}" alt="Citas" style="width: 10px; height: 10px; margin-right: 5px;"> Citas
-                </a>
-
-                <a href="{% url 'lista_servicios_odontologo' %}" class="btn btn-outline-primary ">
-                    <img src="{% static 'images/service.png' %}" alt="Servicio" style="width: 20px; height: 20px; margin-right: 5px;"> Servicio
-                </a>
-
-                <a href="{% url 'search' %}" class="btn btn-outline-primary ">
-                    <img src="{% static 'images/radiografia.png' %}" alt="Radiografia" style="width: 20px; height: 20px; margin-right: 5px;"> Radiografia
-                </a>
-
-                <a href="{% url 'buscar_hc' %}" class="btn btn-outline-primary ">
-                    <img src="{% static 'images/hc.png' %}" alt="HistoriaClínica" style="width: 20px; height: 20px; margin-right: 5px;"> Historia Clínica
-                </a>
-
-                <a href="{% url 'ver_productos' %}" class="btn btn-outline-primary">
-                    <img src="{% static 'images/inventario.png' %}" alt="Inventario" style="width: 20px; height: 20px; margin-right: 5px;">  Inventario
-                </a>
-
-                <a href="{% url 'upload_image' %}" class="btn btn-outline-primary ">
-                    <img src="{% static 'images/facial.png' %}" alt="FaceCam" style="width: 20px; height: 20px; margin-right: 5px;">  FaceCam
-                </a>
-                
-                
-                
-            {% endif %}
-        {% endif %}
-                
-        <div class="col-lg col-md-6 col-sm-12 col">
-        </div> <!-- col.// -->
-        
-        <div class="col-lg-2 col-sm-5 col-7 order-2 order-lg-2">
-            <div class="d-flex justify-content-end mb-4 mb-lg-0">
-                {% if user.is_authenticated %}
-                    {% if user.paciente %}
-                    <div class="widget-header d-flex col-lg align-items-center">
-                        <small class="title text-muted ">Bienvenido {{ user.paciente.nombre }}</small>
-                        <div class="user-info dropdown">
-                            <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{% url 'actualizar_perfil' %}">Actualizar Perfil</a>
-                                <a class="dropdown-item" href="{% url 'logout_paciente' %}">Salir</a>
-                            </div>
-                        </div>
-
-                        <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
-                            <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-                        </a>
-                    </div>
-                {% elif user.odontologo %}
-                    <div class="widget-header">
-                        <small class="title text-muted">Bienvenido {{ user.odontologo.nombres }}</small>
-                        <div class="user-info dropdown">
-                            <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{% url 'logout_odontologo' %}">Salir</a>
-                            </div>
-                            <a href="{% url 'carttwo' %}" class="widget-header pl-1 ml-3">
-                                <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-                            </a>
-                        </div>
-
-                        
-                    </div>
-                    {% elif user.odontologo %}
-                        <div class="widget-header">
-                            <small class="title text-muted">Bienvenido {{ user.odontologo.nombres }}</small>
-                            
-                            <div class="user-info">
-                                <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs">
-                                <a href="{% url 'logout_odontologo' %}">Salir</a>
-                            </div>
-
-                            
-                        </div>
-                    {% else %}
-                        <div class="widget-header">
-                            <small class="title text-muted">Bienvenido Invitado</small>
-                            <div class="user-info">
-                                <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs">
-                                <a href="{% url 'paciente_login' %}">Login Paciente</a> <span class="dark-transp">
-                                <a href="{% url 'odontologo_login' %}">Login Odontólogo</a> <span class="dark-transp">
-                            </div>
-                        </div>
+            <div class="collapse navbar-collapse" id="navbarTop4">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        {% if user.paciente %}
+                            <li class="nav-item">
+                                <a href="{% url 'crear_cita' %}" class="nav-link">
+                                    <img src="{% static 'images/citaboton.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Citas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'chat' %}" class="nav-link">
+                                    <img src="{% static 'images/chatbot.png' %}" alt="ChatBot" style="width: 20px; height: 20px; margin-right: 5px;"> ChatBot
+                                </a>
+                            </li>
+                        {% elif user.odontologo %}
+                            <li class="nav-item">
+                                <a href="{% url 'ver_citas_odontologo' %}" class="nav-link">
+                                    <img src="{% static 'images/citaboton.png' %}" alt="Citas" style="width: 20px; height: 20px; margin-right: 5px;"> Citas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'lista_servicios_odontologo' %}" class="nav-link">
+                                    <img src="{% static 'images/service.png' %}" alt="Servicio" style="width: 20px; height: 20px; margin-right: 5px;"> Servicio
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'search' %}" class="nav-link">
+                                    <img src="{% static 'images/radiografia.png' %}" alt="Radiografia" style="width: 20px; height: 20px; margin-right: 5px;"> Radiografia
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'buscar_hc' %}" class="nav-link">
+                                    <img src="{% static 'images/hc.png' %}" alt="HistoriaClínica" style="width: 20px; height: 20px; margin-right: 5px;"> Historia Clínica
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'ver_productos' %}" class="nav-link">
+                                    <img src="{% static 'images/inventario.png' %}" alt="Inventario" style="width: 20px; height: 20px; margin-right: 5px;"> Inventario
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'upload_image' %}" class="nav-link">
+                                    <img src="{% static 'images/facial.png' %}" alt="FaceCam" style="width: 20px; height: 20px; margin-right: 5px;"> FaceCam
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endif %}
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs">
+                                {% if user.paciente %}
+                                    {{ user.paciente.nombre }}
+                                {% elif user.odontologo %}
+                                    {{ user.odontologo.nombres }}
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% if user.paciente %}
+                                    <a class="dropdown-item" href="{% url 'actualizar_perfil' %}">Actualizar Perfil</a>
+                                    <a class="dropdown-item" href="{% url 'logout_paciente' %}">Salir</a>
+                                {% elif user.odontologo %}
+                                    <a class="dropdown-item" href="{% url 'logout_odontologo' %}">Salir</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            {% if user.paciente %}
+                                <a href="{% url 'cart' %}" class="nav-link">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            {% elif user.odontologo %}
+                                <a href="{% url 'carttwo' %}" class="nav-link">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            {% endif %}
+                        </li>
                     {% else %}
-                    <div class="widget-header">
-                        <small class="title text-muted">Bienvenido Invitado</small>
-                        <div class="user-info">
-                            <img src="{% static 'images/nino.png' %}" alt="Usuario" class="img-xs">
-                            <a href="{% url 'paciente_login' %}">Login Paciente</a> <span class="dark-transp">
-                            <a href="{% url 'odontologo_login' %}">Login Odontólogo</a> <span class="dark-transp">
-                        </div>
-                    </div>
-            {% endif %}
-
-                
-            </div> <!-- widgets-wrap.// -->
-        </div> <!-- col.// -->
-    </div> <!-- row.// -->
-        </div> <!-- container.// -->
-    </section> <!-- header-main .// -->
-</header> <!-- section-header.// -->
+                        <li class="nav-item">
+                            <a href="{% url 'paciente_login' %}" class="nav-link">Login Paciente</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'odontologo_login' %}" class="nav-link">Login Odontólogo</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
