@@ -49,16 +49,6 @@
                     <button type="submit" class="btn btn-primary btn-block">Registrar</button>
                 </div>
             </form>
-            {% if messages %}
-                <script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('event', 'sign_up', {
-                        'event_category': 'User',
-                        'event_label': 'New User Registration'
-                    });
-                </script>
-            {% endif %}
         </article>
     </div>
     <p class="text-center mt-4">¿Ya tienes una cuenta? <a href="{% url 'paciente_login' %}">Inicia sesión aquí</a></p>
